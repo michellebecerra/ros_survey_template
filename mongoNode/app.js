@@ -6,11 +6,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser'); //handles input values before getting to express
 
 var index = require('./routes/index');
-var users = require('./routes/users');
-var survey = require('./routes/survey');
-
+var users = require('./routes/users'); //mb
+var survey = require('./routes/survey'); //mb
+//mongoose and file systems - tutorials
 var mongoose = require('mongoose');
+//const MongoClient = require('mongodb').MongoClient
 var fs = require('fs');
+
 var app = express();
 
 // view engine setup
@@ -32,28 +34,30 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //BLOG TUTORIAL
 
-app.get('/', function(req, res){
-  res.send('Hello World!')
-});
-
-app.use('/survey', survey);
-
-app.post('/quotes', function(req, res){
-  console.log(req.body)
-});
-/*YOUTUBE TUTORIAL
-// mongoose.connect('mongodb://55.55.55.5/mongo');
-// mongoose.model('users', {name: String});
-
-// fs.readdirSync(__dirname + '/models').forEach(function(filename){
-// 	if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+// app.get('/', function(req, res){
+//   res.send('Hello World!')
 // });
 
-// app.get('/users', function(req, res){
-// 	mongoose.model('users').find(function(err, users){
-// 		res.send(users)
-// 	});
+//app.use('/survey', survey);
+
+// app.post('/quotes', function(req, res){
+//   console.log(req.body)
 // });
+
+
+//YOUTUBE TUTORIAL
+mongoose.connect('mongodb://michellebecerra:mongo2017@ds147079.mlab.com:47079/ros-survey');
+//mongoose.model('users', {name: String});
+
+fs.readdirSync(__dirname + '/models').forEach(function(filename){
+	if(~filename.indexOf('.js')) require(__dirname + '/models/' + filename)
+});
+
+app.get('/users', function(req, res){
+	mongoose.model('users').find(function(err, users){
+		res.send(users);
+	});
+});
 
 // app.get('/posts', function(req, res){
 // 	mongoose.model('posts').find({user: req.params.userId}, function(err, posts){
@@ -62,7 +66,7 @@ app.post('/quotes', function(req, res){
 // 		});
 // 	});
 // });
-*/
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
